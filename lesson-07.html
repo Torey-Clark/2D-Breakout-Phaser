@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Gamedev Phaser Workshop - Lesson 07: Player Paddle and Controls</title>
+        <style>
+            * {
+                padding: 0;
+                margin: 0;
+            }
+        </style>
+        <script src="js/phaser.2.4.2.min.js"></script>
+    </head>
+    <body>
+        <script>
+            const game = new Phaser.Game(480, 320, Phaser.CANVAS, null, {
+                preload: preload,
+                create: create,
+                update: update,
+            })
+            let ball
+            let paddle
+            function preload() {
+                // Enable scaling for the game
+                game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL
+                game.scale.pageAlignHorizontally = true
+                game.scale.pageAlignVertically = true
+                game.stage.backgroundColor = '#eee'
+
+                // Load the images for the game
+                game.load.image('ball', 'img/ball.png')
+                game.load.image('paddle', 'img/paddle.png')
+            }
+            function create() {
+                // Set the physics engine for the game
+                game.physics.startSystem(Phaser.Physics.ARCADE)
+
+                // Load the ball as an object
+                ball = game.add.sprite(
+                    game.world.width * 0.5,
+                    game.world.height - 25,
+                    'ball'
+                )
+                ball.anchor.set(0.5)
+
+                // Enable physics so we can add velocity and collisions
+                game.physics.enable(ball, Phaser.Physics.ARCADE)
+                ball.body.velocity.set(150, -150)
+                ball.body.collideWorldBounds = true
+                // Let the ball bounce when it hits something
+                ball.body.bounce.set(1)
+
+                paddle = game.add.sprite(
+                    game.world.width * 0.5,
+                    game.world.height - 5,
+                    'paddle'
+                )
+                // Move the anchor point for the paddle to the bottom middle of the sprite
+                paddle.anchor.set(0.5, 1)
+                game.physics.enable(paddle, Phaser.Physics.ARCADE)
+                // Set the paddle as an immovable object so the ball cannot move it
+                paddle.body.immovable = true
+            }
+            function update() {
+                // Enable collisions between the ball and the paddle
+                game.physics.arcade.collide(ball, paddle)
+
+                // The input position is not set at the beginning of the game so we set it to the mid point of the board
+                paddle.x = game.input.x || game.world.width * 0.2
+            }
+        </script>
+    </body>
+</html>
