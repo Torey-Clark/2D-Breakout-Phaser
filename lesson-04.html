@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Gamedev Phaser Workshop - Lesson 03: Load the Assets and Print Them on Screen</title>
+        <title>Gamedev Phaser Workshop - Lesson 04: Move the Ball</title>
         <style>
             * {
                 padding: 0;
@@ -32,7 +32,10 @@
             function create() {
                 ball = game.add.sprite(50, 50, 'ball')
             }
-            function update() {}
+            function update() {
+                ball.x += 1
+                ball.y += 1
+            }
         </script>
     </body>
 </html>
